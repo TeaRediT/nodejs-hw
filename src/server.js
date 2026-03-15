@@ -4,7 +4,7 @@ import cors from 'cors';
 import pino from 'pino-http';
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT ? process.env.PORT : 3000;
 
 app.use(express.json());
 app.use(cors());
@@ -39,7 +39,7 @@ app.get('/test-error', (req, res) => {
 });
 
 app.use((req, res) => {
-  res.status(400).json({ message: 'Route note found' });
+  res.status(404).json({ message: 'Route not found' });
 });
 
 app.use((err, req, res, next) => {
