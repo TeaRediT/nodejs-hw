@@ -2,13 +2,12 @@ import { HttpError } from 'http-errors';
 
 export const errorHandler = (err, req, res, next) => {
   if (err instanceof HttpError) {
-    return res.status(err.status).json(err.message || err.name);
+    return res.status(err.status).json({ message: err.message || err.name });
   }
 
-  const isProd = process.env.NODE_ENV;
+  const isProd = process.env.NODE_ENV !== 'development';
   console.error('Error:', err.message);
   res.status(500).json({
-    message:
-      isProd === 'development' ? err.message : 'Oops something went wrong',
+    message: !isProd ? err.message : 'Oops something went wrong',
   });
 };
